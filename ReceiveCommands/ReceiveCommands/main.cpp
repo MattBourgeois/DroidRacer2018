@@ -1,4 +1,3 @@
-/*
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -9,8 +8,9 @@
 #include <errno.h>
 #include <stdio.h>
 #include <iostream>
-
+#include <zconf.h>
 #include "ArduinoController.h"
+#include "ArduinoController.cpp"
 
 using namespace std;
 
@@ -26,7 +26,6 @@ void error( char *msg ) {
 
 void connectToPC()
 {
-    //int newsockfd = 0;
      while (1)
      {
         printf( "waiting for PC to connect\n" );
@@ -45,26 +44,21 @@ void connectToPC()
 
 int getData()
 {
-    //char buffer2[6];
     int n2;
-    cout << "here?" << endl;
     if ( (n2 = recv(newsockfd, buffer, 256, 0) ) < 0 )
     {
         error( const_cast<char *>( "ERROR reading from socket") );
         return 0;
     }
-    cout << "also here?" << endl;
     buffer[n2] = '\0';
     cout << "recv: " << buffer << endl;
-    // atoi(buffer);
-    return 1;
+    return atoi(buffer);
 }
 
 
 int main()
 {
-
-    /* Socket setup to receive command strings from the PC
+    // Socket setup to receive command strings from the PC
     // This has way more code, but is more efficient, as it's a standard inbuild socket type
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -73,6 +67,7 @@ int main()
          //error( const_cast<char *>("ERROR opening socket") );
          cout << "Socket Error" << endl;
      }
+
      bzero((char *) &serv_addr, sizeof(serv_addr));
      serv_addr.sin_family = AF_INET;
      serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -83,37 +78,37 @@ int main()
        //error( const_cast<char *>( "ERROR on binding" ) );
        cout << "Bind Error" << endl;
      }
+
      listen(sockfd,5);
      clilen = sizeof(cli_addr);
 
      // Wait for the PC to connect to the PI (TCP)
      connectToPC();
 
-
      // create ArduinoController
-     ArduinoController droid("/dev/ttyACM0");
-     droid.step(50, 0);
-
+     const char * com = "/dev/ttyACM0";
+     ArduinoController *droid = new ArduinoController(com);
 
     for (;;)
     {
         getData();
+        // split up buffer on comma , delimeter
+        char *pt;
+        pt = strtok (buffer,",");
+        int cmd[2];
+        int k = 0;
+        while (pt != NULL)
+        {
+            cmd[k] = atoi(pt);
+            //printf("%d\n", cmd[k]);
+            pt = strtok (NULL, ",");
+            k++;
+        }
 
+        droid->step(cmd[0], cmd[1]);
+        //droid->step(50, 100);
     }
-    cout << "Hello world!" << endl;
-
-    // create ArduinoController
 
 
     return 0;
-}
-*/
-#include <iostream>
-#include "ArduinoController.h"
-
-int main()
-{
-     ArduinoController droid("/dev/ttyACM0");
-     droid.step(70, 100);
-     return 0;
 }

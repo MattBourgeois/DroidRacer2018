@@ -4,5 +4,3 @@ The plan for this implementation is to have the droid controls consolidated, all
 
 Please ensure all neccessary files that make the droid run are kept seperate from any other developmental files.
 
-Matt is a bad name.
-

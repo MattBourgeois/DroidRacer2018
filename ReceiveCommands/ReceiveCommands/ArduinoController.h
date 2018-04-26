@@ -7,6 +7,7 @@
 
 #include <cstring>
 #include "EngineController.h"
+#include "EngineController.cpp"
 
 
 class ArduinoController : public EngineController{

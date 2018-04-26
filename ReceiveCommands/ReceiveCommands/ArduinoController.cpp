@@ -22,9 +22,11 @@ bool ArduinoController::step(int steeringAngle, int throttle) {
 
     if(this->arduino < 0){
         printf("Failed");
+        return false;
     }else{
         printf("Success");
     }
     arduino << this->instructions << std::endl;
     arduino.close();
+    return true;
 }

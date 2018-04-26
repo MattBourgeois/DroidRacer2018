@@ -1,5 +1,3 @@
-
-
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -17,34 +15,21 @@ using udp_streaming_video::VideoCapture;
 using namespace cv;
 using namespace std;
 
-
-
 int main()
 {
     const int port = 5000;
     if (port < 0) {
     	return -1;
     }
-    std::string ip_address = "192.168.43.144";  // Localhost
+    std::string ip_address = "169.254.229.236";  // Localhost
     const SenderSocket socket(ip_address, port);
     std::cout << "Sending to " << ip_address << " on port " << port << "." << std::endl;
 
     BasicProtocolData protocol_data;
-    //namedWindow("frame");
-
-	//Mat frame;
-
-	//cv::VideoCapture camera;
 	udp_streaming_video::VideoCapture video_capture(false, 1);
-
-	//if (!camera.open(0))
-	//	return 0;
 
     for (;;)
     {
-		//camera >> frame;
-		//imshow("frame",frame);
-		//cout << frame.size()<<endl;
 		protocol_data.SetImage(video_capture.GetFrameFromCamera());
 		socket.SendPacket(protocol_data.PackageData());
 		//waitKey(1);
