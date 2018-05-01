@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1524720731 source:/home/pi/Desktop/DroidRacer2018/ReceiveCommands/ReceiveCommands/EngineController.cpp
+	<string>
+	<sstream>
+	<cstdio>
+	"EngineController.h"
+	<iostream>
+
+1524719325 /home/pi/Desktop/DroidRacer2018/ReceiveCommands/ReceiveCommands/EngineController.h
+
+1524721334 source:/home/pi/Desktop/DroidRacer2018/ReceiveCommands/ReceiveCommands/main.cpp
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netdb.h>
+	<string.h>
+	<stdlib.h>
+	<unistd.h>
+	<errno.h>
+	<stdio.h>
+	<iostream>
+	"ArduinoController.h"
+	<iostream>
+	"ArduinoController.h"
+
+1524293383 /home/pi/Desktop/DroidRacer2018/ReceiveCommands/ReceiveCommands/ArduinoController.h
+	<cstring>
+	"EngineController.h"
+
+1524721410 source:/home/pi/Desktop/DroidRacer2018/ReceiveCommands/ReceiveCommands/ArduinoController.cpp
+	<iostream>
+	<cstdlib>
+	<cstdio>
+	"ArduinoController.h"
+	<fstream>
+

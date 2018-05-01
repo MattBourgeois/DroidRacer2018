@@ -1,0 +1,74 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././droid/ArduinoController.h
+cstring
+-
+EngineController.h
+.././droid/EngineController.h
+
+.././droid/EngineController.h
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/ArduinoController.cpp
+iostream
+-
+cstdlib
+-
+cstdio
+-
+ArduinoController.h
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/ArduinoController.h
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/ArduinoController.h
+cstring
+-
+EngineController.h
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/EngineController.h
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/EngineController.cpp
+string
+-
+sstream
+-
+cstdio
+-
+EngineController.h
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/EngineController.h
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/EngineController.h
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/droid/server.cpp
+iostream
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+sys/ioctl.h
+-
+net/if.h
+-
+unistd.h
+-
+string.h
+-
+string
+-
+
+/media/matthewlee/DATA/projects/droid_racer_2018/Droid Code v4/main.cpp
+iostream
+-
+string.h
+-
+zconf.h
+-
+EngineController.h
+-
+ArduinoController.h
+-
+
