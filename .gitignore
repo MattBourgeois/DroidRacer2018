@@ -1,0 +1,13 @@
+Windows Code/UDPVideoReceiver/.vs/*
+Windows Code/UDPVideoReceiver/DroidRacer2018/x64/*
+*.obj
+*.log
+*.tlog
+*.pdb
+*.vcxproj
+*.vcxproj.filters
+*.exe
+*.iobj
+*.ipdb
+/.idea
+*.user
