@@ -51,7 +51,7 @@ int getData()
         return 0;
     }
     buffer[n2] = '\0';
-    cout << "recv: " << buffer << endl;
+    //cout << "recv: " << buffer << endl;
     return atoi(buffer);
 }
 
@@ -86,27 +86,83 @@ int main()
      connectToPC();
 
      // create ArduinoController
-     const char * com = "/dev/ttyACM0";
+     const char * com = "/dev/ttyACM1";
      ArduinoController *droid = new ArduinoController(com);
+        //droid->step(90,90);
+        //sleep(3);
+    //droid->step(75,0);
+
+    printf("\nbuffer: %s\n", buffer);
+    for (int j = 0; j < 256; j++)
+    {
+        buffer[j]=0;
+    }
+
 
     for (;;)
     {
+        // Get that sweet, sweet data bruh
         getData();
+
         // split up buffer on comma , delimeter
-        char *pt;
-        pt = strtok (buffer,",");
-        int cmd[2];
-        int k = 0;
-        while (pt != NULL)
+        string str(buffer);
+
+
+        string cmd1 = str.substr(0, str.find(','));
+        cout << "CMD1: " << cmd1 << endl;
+        string test = str.erase(0, (cmd1.size() + 1));
+        cout << "str after erase" << test << endl;
+        string cmd2 = test.substr(0, test.find(','));
+        cout << "CMD2 before: " << cmd2 << endl;
+        int angle = stoi(cmd2);
+        int throttle = stoi(cmd1);
+
+
+        //cout << "str1: " << cmd1 << " str2: " << cmd2;
+
+        cout << "cmd2: " << angle << " cmd1: " << throttle << endl;
+
+        // split up the buffer by the comma, in C:
+        /*for (int j = 0; j < 256; j++)
         {
-            cmd[k] = atoi(pt);
-            //printf("%d\n", cmd[k]);
-            pt = strtok (NULL, ",");
-            k++;
+            char temp1[k];
+            char temp2[k];
+            if (buffer[j] == '\0');
+            {
+                break;
+            }
+            if (buffer[j] == ',');
+            {
+                char temp[10];
+                int k;
+                for ( k = 0; k < j; k++)
+                {
+                    temp[k] = buffer[k];
+                }
+                temp[j] = '\0';
+                continue;
+            }
+
+        }*/
+
+
+
+
+
+        //cout << "Angle: " << cmd[0] << " Power: " << cmd[1] << endl;
+
+        //->step(cmd[0], cmd[1]);
+        usleep(10000);
+        droid->step(angle, throttle);
+
+        printf("\nbuffer: %s\n", buffer);
+        for (int j = 0; j < 256; j++)
+        {
+            char a = '\0';
+            buffer[j]= a;
         }
 
-        droid->step(cmd[0], cmd[1]);
-        //droid->step(50, 100);
+
     }
 
 

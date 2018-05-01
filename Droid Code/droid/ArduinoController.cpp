@@ -15,10 +15,10 @@ ArduinoController::ArduinoController(const char *port) {
     this->port = port;
 }
 
-bool ArduinoController::step(int steeringAngle, int throttle) {
+bool ArduinoController::step(int steeringAngle, int throttle, char *dev) {
     this->update(steeringAngle, throttle);
     std::fstream arduino;
-    arduino.open("/dev/ttyACM0");
+    arduino.open(dev);
 
     if(this->arduino < 0){
         printf("Failed");

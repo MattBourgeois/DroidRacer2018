@@ -18,7 +18,7 @@ ArduinoController::ArduinoController(const char *port) {
 bool ArduinoController::step(int steeringAngle, int throttle) {
     this->update(steeringAngle, throttle);
     std::fstream arduino;
-    arduino.open("/dev/ttyACM0");
+    arduino.open(port);
 
     if(this->arduino < 0){
         printf("Failed");
@@ -26,6 +26,7 @@ bool ArduinoController::step(int steeringAngle, int throttle) {
     }else{
         printf("Success");
     }
+	printf(this->instructions);
     arduino << this->instructions << std::endl;
     arduino.close();
     return true;
