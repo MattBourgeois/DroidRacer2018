@@ -24,74 +24,73 @@ using namespace cv;
 
 class UDPClientWrapper
 {
-	public:
-		const char *addr;
-		int UDPMAX; 
-		int port; 
-		UDPClient *client; 
-		char *buff;
-		vector<uchar> videoBuffer;
+public:
+	const char *addr;
+	int UDPMAX;
+	int port;
+	UDPClient *client;
+	char *buff;
+	vector<uchar> videoBuffer;
 
-		// Constructor
-		UDPClientWrapper(const char *inAddr, int inUDPMAX, int inPort )
+	// Constructor
+	UDPClientWrapper(const char *inAddr, int inUDPMAX, int inPort)
+	{
+		addr = inAddr;
+		UDPMAX = inUDPMAX;
+		port = inPort;
+		client = new UDPClient(port);
+		buff = (char*)malloc(UDPMAX);
+	}
+
+	void setup()
+	{
+		cout << "=== VIDEO RECEIVER ===" << endl;
+		//setup openCV
+		cvNamedWindow("UDP Video Receiver", CV_WINDOW_AUTOSIZE);
+	}
+
+	void receive()
+	{
+		//read data
+		int result = client->receiveData(buff, UDPMAX);
+		if (result <= 0)
 		{
-			addr = inAddr;
-			UDPMAX = inUDPMAX;
-			port = inPort;
-			client = new UDPClient(port);
-			buff = (char*)malloc(UDPMAX);
+			cout << "Failed to receive frame. UDPClientData::receiveData() returned code:  " << result << endl;
 		}
-
-		void setup()
+		else
 		{
-			cout << "=== VIDEO RECEIVER ===" << endl;
-			//setup openCV
-			cvNamedWindow("UDP Video Receiver", CV_WINDOW_AUTOSIZE);
-		}
+			cout << "Got a frame of size " << result << endl;
 
-		void receive()
+			videoBuffer.resize(result);
+			memcpy((char*)(&videoBuffer[0]), buff, result);
+
+			//reconstruct jpeg and display it
+			Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
+			IplImage img = jpegimage;
+			cvShowImage("UDP Video Receiver", &img);
+			//cvWaitKey(1);
+		}
+	}
+
+	int wrapperReceive(IplImage img)
+	{
+		//read data
+		int result = client->receiveData(buff, UDPMAX);
+		if (result <= 0)
 		{
-			//read data
-			int result = client->receiveData(buff, UDPMAX);
-			if (result <= 0) 
-			{
-				cout << "Failed to receive frame. UDPClientData::receiveData() returned code:  " << result << endl;
-			}
-			else 
-			{
-				cout << "Got a frame of size " << result << endl;
-
-				videoBuffer.resize(result);
-				memcpy((char*)(&videoBuffer[0]), buff, result);
-
-				//reconstruct jpeg and display it
-				Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
-				IplImage img = jpegimage;
-				cvShowImage("UDP Video Receiver", &img);
-				//cvWaitKey(1);
-			}
+			cout << "Failed to receive frame. UDPClientData::receiveData() returned code:  " << result << endl;
 		}
-
-		int wrapperReceive(IplImage img)
+		else
 		{
-			//read data
-			int result = client->receiveData(buff, UDPMAX);
-			if (result <= 0)
-			{
-				cout << "Failed to receive frame. UDPClientData::receiveData() returned code:  " << result << endl;
-			}
-			else
-			{
-				cout << "Got a frame of size " << result << endl;
+			cout << "Got a frame of size " << result << endl;
 
-				videoBuffer.resize(result);
-				memcpy((char*)(&videoBuffer[0]), buff, result);
+			videoBuffer.resize(result);
+			memcpy((char*)(&videoBuffer[0]), buff, result);
 
-				//reconstruct jpeg and display it
-				Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
-				IplImage img = jpegimage;
-				//cvShowImage("UDP Video Receiver", &img);
-			}
+			//reconstruct jpeg and display it
+			Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
+			IplImage img = jpegimage;
+			//cvShowImage("UDP Video Receiver", &img);
 		}
+	}
 };
-
