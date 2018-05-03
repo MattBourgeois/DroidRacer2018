@@ -88,8 +88,13 @@ int main()
      // create ArduinoController
      const char * com = "/dev/ttyACM1";
      ArduinoController *droid = new ArduinoController(com);
+     std::fstream arduino;
+     arduino.open(com);
+     const char * co = "/dev/ttyACM0";
+     std::fstream arduin;
+     arduin.open(co);
         //droid->step(90,90);
-        //sleep(3);
+        sleep(3);
     //droid->step(75,0);
 
     printf("\nbuffer: %s\n", buffer);
@@ -101,26 +106,27 @@ int main()
 
     for (;;)
     {
+
         // Get that sweet, sweet data bruh
         getData();
 
         // split up buffer on comma , delimeter
         string str(buffer);
 
-
+        //cout << "buffer: " << buffer << endl;
         string cmd1 = str.substr(0, str.find(','));
-        cout << "CMD1: " << cmd1 << endl;
+        //cout << "CMD1: " << cmd1 << endl;
         string test = str.erase(0, (cmd1.size() + 1));
-        cout << "str after erase" << test << endl;
+        //cout << "str after erase" << test << endl;
         string cmd2 = test.substr(0, test.find(','));
-        cout << "CMD2 before: " << cmd2 << endl;
+        //cout << "CMD2 before: " << cmd2 << endl;
         int angle = stoi(cmd2);
         int throttle = stoi(cmd1);
 
 
         //cout << "str1: " << cmd1 << " str2: " << cmd2;
 
-        cout << "cmd2: " << angle << " cmd1: " << throttle << endl;
+        cout << "Angle: " << angle << " Throttle: " << throttle << endl;
 
         // split up the buffer by the comma, in C:
         /*for (int j = 0; j < 256; j++)
@@ -152,10 +158,20 @@ int main()
         //cout << "Angle: " << cmd[0] << " Power: " << cmd[1] << endl;
 
         //->step(cmd[0], cmd[1]);
-        usleep(10000);
-        droid->step(angle, throttle);
+        //droid->step(130, 0);
+        //droid->step(30,101);
+        //droi->step(30,101);
+        //sleep(3);
+        //droid->step(130,0);
+        //droi->step(130,0);
+        //leep(3);
+        arduino << droid->step(30, 0) << endl;
+        usleep(1000000);
+        arduino << droid->step(130, 0) << endl;
+        //droid->step(130, 0);
+        //droid->step(30, 101);
 
-        printf("\nbuffer: %s\n", buffer);
+        //printf("\nbuffer: %s\n", buffer);
         for (int j = 0; j < 256; j++)
         {
             char a = '\0';

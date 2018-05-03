@@ -13,21 +13,28 @@ ArduinoController::ArduinoController(const char *port) {
      * @param const char *port: The serial port to connect to the arduino (e.g /dev/ttyACM1)
      */
     this->port = port;
+    //std::fstream arduino;
+    //arduino.open(port);
 }
 
-bool ArduinoController::step(int steeringAngle, int throttle) {
+char* ArduinoController::step(int steeringAngle, int throttle) {
     this->update(steeringAngle, throttle);
-    std::fstream arduino;
-    arduino.open(port);
+
+    //this->arduino = fopen(this->port
+	printf("PORT: ");
+	printf(port);
+	printf("\n");
 
     if(this->arduino < 0){
         printf("Failed");
-        return false;
+        //return false;
     }else{
-        printf("Success");
+        printf("Success :");
     }
 	printf(this->instructions);
-    arduino << this->instructions << std::endl;
-    arduino.close();
-    return true;
+	printf("\n");
+	return this->instructions;
+    //arduino << this->instructions << std::endl;
+    //arduino.close();
+    //return true;
 }

@@ -18,9 +18,10 @@ class ArduinoController : public EngineController{
 private:
     const char * port;
     FILE * arduino;
+
 public:
     ArduinoController(const char * port);
-    bool step(int steeringAngle, int throttle);
+    char* step(int steeringAngle, int throttle);
 };
 
 
