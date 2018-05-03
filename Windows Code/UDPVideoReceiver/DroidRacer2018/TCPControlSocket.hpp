@@ -19,7 +19,7 @@ public:
 	}
 
 	// setup
-	int setup() 
+	int setup()
 	{
 		// initialise winsock library
 		printf("\nInitialising Winsock...");
@@ -38,9 +38,9 @@ public:
 		printf("Socket created.\n");
 
 		// Define socket properties
-		server.sin_addr.s_addr = inet_addr("169.254.28.95"); // the IP address of the server you wish to connect to
-		server.sin_family = AF_INET;
-		server.sin_port = htons(5001); // the port your service is using
+		//server.sin_addr.s_addr = inet_addr("169.254.28.95"); // the IP address of the server you wish to connect to
+		//server.sin_family = AF_INET;
+		//server.sin_port = htons(5001); // the port your service is using
 
 									   //Connect to remote server
 		if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0)
@@ -51,7 +51,7 @@ public:
 		printf("Connected \n");
 	}
 
-	int sendData(const char *message) 
+	int sendData(const char *message)
 	{
 		if (send(s, message, strlen(message), 0) <= 0)
 		{
@@ -61,5 +61,3 @@ public:
 		printf("Data Sent\n");
 	}
 };
-
-

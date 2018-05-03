@@ -1,6 +1,5 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <WinSock2.h>
-
 #include <stdio.h>
 
 #ifndef UDPCLIENT_H
@@ -17,7 +16,7 @@ class UDPClient {
 	sockaddr_in last_address; //last address received from
 	bool default_destination_set;
 	WSADATA wsaData;
-	public:
+public:
 	UDPClient();
 	UDPClient(int local_port);
 	UDPClient(char* host_addr, int host_port);

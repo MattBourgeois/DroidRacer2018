@@ -2,17 +2,17 @@
 
 //CONSTRUCTOR: Create new socket, bound locally to ANY (random) port:
 //THROWS: Exception upon ecountering an error.
-UDPClient::UDPClient() 
+UDPClient::UDPClient()
 {
 	int result = WSAStartup(MAKEWORD(2, 2), (LPWSADATA)&wsaData);
-	if (result < 0) 
+	if (result < 0)
 	{
 		throw "WSAStartup ERROR.";
 	}
 	return;
 
 	clientSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if (clientSock == INVALID_SOCKET) 
+	if (clientSock == INVALID_SOCKET)
 	{
 		throw "Invalid Socket ERROR.";
 		return;
@@ -30,17 +30,17 @@ UDPClient::UDPClient()
 
 //CONSTRUCTOR: Create new socket, bound locally to the given port:
 //THROWS: Exception upon ecountering an error.
-UDPClient::UDPClient(int local_port) 
+UDPClient::UDPClient(int local_port)
 {
 	int result = WSAStartup(MAKEWORD(2, 2), (LPWSADATA)&wsaData);
-	if (result < 0) 
+	if (result < 0)
 	{
 		throw "WSAStartup ERROR.";
 		return;
 	}
 
 	clientSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if (clientSock == INVALID_SOCKET) 
+	if (clientSock == INVALID_SOCKET)
 	{
 		throw "Invalid Socket ERROR.";
 		return;
@@ -53,7 +53,7 @@ UDPClient::UDPClient(int local_port)
 	local.sin_port = htons(local_port); //assign given port
 										//bind: //NOTE: always returns -1?
 	result = bind(clientSock, (sockaddr*)&local, sizeof(local));
-	if (result < 0) 
+	if (result < 0)
 	{
 		throw "Socket Bind ERROR";
 		return;
@@ -65,17 +65,17 @@ UDPClient::UDPClient(int local_port)
 //CONSTRUCTOR: Create a new socket, establishing a default destination to the
 //	given host and port.
 //  THROWS: Exception upon encountering an error.
-UDPClient::UDPClient(char* host_addr, int host_port) 
+UDPClient::UDPClient(char* host_addr, int host_port)
 {
 	int result = WSAStartup(MAKEWORD(2, 2), (LPWSADATA)&wsaData);
-	if (result < 0) 
+	if (result < 0)
 	{
 		throw "WSAStartup ERROR.";
 		return;
 	}
 
 	clientSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if (clientSock == INVALID_SOCKET) 
+	if (clientSock == INVALID_SOCKET)
 	{
 		throw "Invalid Socket ERROR.";
 		return;
@@ -101,7 +101,7 @@ UDPClient::UDPClient(char* host_addr, int host_port)
 
 //CONSTRUCTOR: Create from an existing socket.
 //	Attempts to set default to the socket's originating host/port.
-UDPClient::UDPClient(SOCKET sock) 
+UDPClient::UDPClient(SOCKET sock)
 {
 	clientSock = sock;
 	//TODO: extract local info and set it here
@@ -111,13 +111,13 @@ UDPClient::UDPClient(SOCKET sock)
 
 
 //DECONSTRUCTOR: Cleanup WSA and die:
-UDPClient::~UDPClient() 
+UDPClient::~UDPClient()
 {
 	WSACleanup();
 }
 
 //SET_DEFAULT_DESTINATION: Attempts to set the default host/port.
-void UDPClient::setDefaultDestination(char* host, int port) 
+void UDPClient::setDefaultDestination(char* host, int port)
 {
 	//set up destination variables:
 	default_destination.sin_family = AF_INET;
@@ -130,7 +130,7 @@ void UDPClient::setDefaultDestination(char* host, int port)
 
 //SET_DEFAULT_DESTINATION: Attempts to set the default host/port
 //	to the last address a packet was received from.
-void UDPClient::setDefaultDestinationToLastReceived() 
+void UDPClient::setDefaultDestinationToLastReceived()
 {
 	//NOTE: this needs to work as "memcpy" or something
 	//CHANGE THIS SO THAT IT DOES NOT MESS UP THE POINTERS - Cailen.
@@ -142,7 +142,7 @@ void UDPClient::setDefaultDestinationToLastReceived()
 
 //BIND_TO: Binds the socket to the given LOCAL port (accepting on local port).
 //	RETURNS result of bind()
-int UDPClient::bindTo(int local_port) 
+int UDPClient::bindTo(int local_port)
 {
 	//bind to (local) address - given port:
 	sockaddr_in local;
@@ -157,9 +157,9 @@ int UDPClient::bindTo(int local_port)
 //SEND_DATA: attempts to send data to the default host/port.
 //	RETURNS: results of (private) sendData(), or
 //	-1 if failed or if default destination is not set.
-int UDPClient::sendData(char* buffer, int len) 
+int UDPClient::sendData(char* buffer, int len)
 {
-	if (!default_destination_set) 
+	if (!default_destination_set)
 	{
 		printf("No default set.\n");
 		return -1;
@@ -170,7 +170,7 @@ int UDPClient::sendData(char* buffer, int len)
 
 //SEND_DATA: attempts to send data to the given host/port.
 //	RETURNS: results of (private) sendData().
-int UDPClient::sendData(char* buffer, int len, char* host, int port) 
+int UDPClient::sendData(char* buffer, int len, char* host, int port)
 {
 	sockaddr_in destination;
 	destination.sin_family = AF_INET;
@@ -183,7 +183,7 @@ int UDPClient::sendData(char* buffer, int len, char* host, int port)
 //SEND_STRING: calculates the length of the string, and sends it
 // over the socket using standard/default sendData() function.
 //RETURNS results of sendData(buffer, len).
-int UDPClient::sendString(char* string) 
+int UDPClient::sendString(char* string)
 {
 	return sendData(string, strlen(string));
 }
@@ -192,7 +192,7 @@ int UDPClient::sendString(char* string)
 //SEND_STRING (to): calculates the length of the string, and sends it
 // over the socket using specified destination sendData() function.
 //RETURNS results of sendData(buffer, len, host, port).
-int UDPClient::sendString(char* string, char* host, int port) 
+int UDPClient::sendString(char* string, char* host, int port)
 {
 	return sendData(string, strlen(string), host, port);
 }
@@ -201,7 +201,7 @@ int UDPClient::sendString(char* string, char* host, int port)
 //SEND_INT: converts the given int into a char* and sends it
 // over the socket using standard/default sendData() function.
 //RETURNS results of sendData(buffer, len).
-int UDPClient::sendInt(int i) 
+int UDPClient::sendInt(int i)
 {
 	return sendData((char*)&i, sizeof(int));
 }
@@ -210,7 +210,7 @@ int UDPClient::sendInt(int i)
 //SEND_INT (to): calculates the length of the string, and sends it
 // over the socket using specified destination sendData() function.
 //RETURNS results of sendData(buffer, len, host, port).
-int UDPClient::sendInt(int i, char* host, int port) 
+int UDPClient::sendInt(int i, char* host, int port)
 {
 	return sendData((char*)&i, sizeof(int), host, port);
 }
@@ -220,7 +220,7 @@ int UDPClient::sendInt(int i, char* host, int port)
 // Results may be unpredictable if no message was read before using
 // this function.
 //RETURNS results of sendto
-int UDPClient::reply(char* buffer, int len) 
+int UDPClient::reply(char* buffer, int len)
 {
 	return sendto(clientSock, buffer, len, 0, (sockaddr*)&last_address, sizeof(last_address));
 }
@@ -230,12 +230,12 @@ int UDPClient::reply(char* buffer, int len)
 //		RETURNS -1 if failed to receive.
 // Read socket data up to "len" size from socket into
 // ELSE RETURNS length of data that was received (in bytes).
-int UDPClient::receiveData(char* buffer, int len) 
+int UDPClient::receiveData(char* buffer, int len)
 {
 	int received = 0;
 	sockaddr_in source;
 	int source_size = sizeof(source);
-	if ((received = recvfrom(clientSock, buffer, len, 0, (sockaddr*)&source, &source_size)) == SOCKET_ERROR) 
+	if ((received = recvfrom(clientSock, buffer, len, 0, (sockaddr*)&source, &source_size)) == SOCKET_ERROR)
 	{
 		printf("ERROR #%d\n", WSAGetLastError());
 		return SOCKET_ERROR;
@@ -249,16 +249,16 @@ int UDPClient::receiveData(char* buffer, int len)
 //Read socket data up to a newline "\n" terminator.
 //		 RETURNS NULL if failed to receive.
 //	ELSE RETURNS the string read up to "\n" newline.
-char* UDPClient::recvLine() 
+char* UDPClient::recvLine()
 {
 	int len = 512;
 	char* buffer;
 	buffer = (char*)malloc(len);
 	int i = 0;
-	do 
+	do
 	{
 		//if len is exceeded, extend array:
-		if (i == len) 
+		if (i == len)
 		{
 			char* temp;
 			len *= 2;
@@ -271,8 +271,7 @@ char* UDPClient::recvLine()
 		int res = receiveData(buffer + i, 1);
 		if (res != 1)
 			return NULL;
-	} 
-		while (buffer[i++] != '\n');
+	} while (buffer[i++] != '\n');
 
 	char* result;
 	result = (char*)malloc(i + 1);
@@ -287,13 +286,13 @@ char* UDPClient::recvLine()
 //Read socket data for 4 bytes (int) and returns the int.
 //		 RETURNS NULL if failed to receive.
 //		 ELSE RETURNS the integer.
-int UDPClient::recvInt() 
+int UDPClient::recvInt()
 {
 	char buffer[4];
 	int result = receiveData(buffer, 4);
 	if (result != 4)
 		return NULL;
-	else 
+	else
 	{
 		result = 0;
 		//NOTE: this does not take into account "endian" form
@@ -305,13 +304,13 @@ int UDPClient::recvInt()
 	}
 }
 
-char* UDPClient::getLocalAddr() 
+char* UDPClient::getLocalAddr()
 {
 	struct sockaddr_in sin;
 	int addrlen = sizeof(sin);
 	if (getsockname(clientSock, (struct sockaddr *)&sin, &addrlen) == 0 &&
 		sin.sin_family == AF_INET &&
-		addrlen == sizeof(sin)) 
+		addrlen == sizeof(sin))
 	{
 		printf("RETURNING ADDR: %s: len = %d\n", inet_ntoa(sin.sin_addr), strlen(inet_ntoa(sin.sin_addr)));
 		return inet_ntoa(sin.sin_addr);
@@ -323,13 +322,13 @@ char* UDPClient::getLocalAddr()
 	}
 }
 
-int UDPClient::getLocalPort() 
+int UDPClient::getLocalPort()
 {
 	struct sockaddr_in sin;
 	int addrlen = sizeof(sin);
 	if (getsockname(clientSock, (struct sockaddr *)&sin, &addrlen) == 0 &&
 		sin.sin_family == AF_INET &&
-		addrlen == sizeof(sin)) 
+		addrlen == sizeof(sin))
 	{
 		printf("RETURNING PORT: %d\n", ntohs(sin.sin_port));
 		return  ntohs(sin.sin_port);
