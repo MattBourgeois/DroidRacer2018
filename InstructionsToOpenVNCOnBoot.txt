@@ -1,0 +1,25 @@
+#Rasberry Pi autostart VNC Serve on boot
+
+#Current authentication details:
+For network "bootsandpants":
+	IP: 192.168.43.7
+	Password: droidracer
+	
+#Steps to Setup
+1. cd home/pi/.config/autostart/
+
+2. nano tightvnc.desktop
+
+3. Type the following:
+	[Desktop Entry]
+	Type=Application
+	Name=TightVNC
+	Exec=vncserver :1
+	StartupNotify=false
+
+4. Hit "CTRL+X" and then "Y"
+
+Done.
+
+Found On:
+https://learn.adafruit.com/adafruit-raspberry-pi-lesson-7-remote-control-with-vnc/running-vncserver-at-startup
