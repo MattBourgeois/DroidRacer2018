@@ -55,7 +55,10 @@ int getData()
     return atoi(buffer);
 }
 
+int clearBuffer()
+{
 
+}
 int main()
 {
     // Socket setup to receive command strings from the PC
@@ -86,97 +89,109 @@ int main()
      connectToPC();
 
      // create ArduinoController
-     const char * com = "/dev/ttyACM1";
+     const char * com = "/dev/ttyACM0";
      ArduinoController *droid = new ArduinoController(com);
-     std::fstream arduino;
-     arduino.open(com);
-     const char * co = "/dev/ttyACM0";
-     std::fstream arduin;
-     arduin.open(co);
+     //std::fstream arduino;
+     //arduino.open(com);
+
         //droid->step(90,90);
         sleep(3);
     //droid->step(75,0);
-
+/*
     printf("\nbuffer: %s\n", buffer);
     for (int j = 0; j < 256; j++)
     {
         buffer[j]=0;
     }
-
+*/
+    const char * com1 = "/dev/ttyACM0";
+     const char * com2 = "/dev/ttyACM1";
+     fstream a1;
+     fstream a2;
+     const char * ctrl1 = "10, 10";
+     const char * ctrl2 = "130, 130";
+     bool alternate = true;
+     sleep(1);
 
     for (;;)
     {
-
+        //usleep(150000);
         // Get that sweet, sweet data bruh
         getData();
-
-        // split up buffer on comma , delimeter
         string str(buffer);
-
-        //cout << "buffer: " << buffer << endl;
-        string cmd1 = str.substr(0, str.find(','));
-        //cout << "CMD1: " << cmd1 << endl;
-        string test = str.erase(0, (cmd1.size() + 1));
-        //cout << "str after erase" << test << endl;
-        string cmd2 = test.substr(0, test.find(','));
-        //cout << "CMD2 before: " << cmd2 << endl;
-        int angle = stoi(cmd2);
-        int throttle = stoi(cmd1);
-
-
-        //cout << "str1: " << cmd1 << " str2: " << cmd2;
-
-        cout << "Angle: " << angle << " Throttle: " << throttle << endl;
-
-        // split up the buffer by the comma, in C:
-        /*for (int j = 0; j < 256; j++)
-        {
-            char temp1[k];
-            char temp2[k];
-            if (buffer[j] == '\0');
-            {
-                break;
-            }
-            if (buffer[j] == ',');
-            {
-                char temp[10];
-                int k;
-                for ( k = 0; k < j; k++)
-                {
-                    temp[k] = buffer[k];
-                }
-                temp[j] = '\0';
-                continue;
-            }
-
-        }*/
-
-
-
-
-
-        //cout << "Angle: " << cmd[0] << " Power: " << cmd[1] << endl;
-
-        //->step(cmd[0], cmd[1]);
-        //droid->step(130, 0);
-        //droid->step(30,101);
-        //droi->step(30,101);
-        //sleep(3);
-        //droid->step(130,0);
-        //droi->step(130,0);
-        //leep(3);
-        arduino << droid->step(30, 0) << endl;
-        usleep(1000000);
-        arduino << droid->step(130, 0) << endl;
-        //droid->step(130, 0);
-        //droid->step(30, 101);
-
-        //printf("\nbuffer: %s\n", buffer);
         for (int j = 0; j < 256; j++)
         {
             char a = '\0';
             buffer[j]= a;
         }
+        string buf(buffer);
+        cout << "BufferClear: " << buf << endl;
+        // split up buffer on comma , delimeter
+
+        //cout << buffer <<endl;
+        string start;
+        cout << "Buffer: " << str << endl;
+        if (str.length() >20)
+        {
+            start= str.substr(str.find(":", str.length()-20));
+        }else{
+            start = str;
+        }
+        string command = start.substr(0, start.find("."));
+        string power = command.substr(1, command.find(",")-1);
+        string angle = command.substr(command.find(",")+1,command.find(".")-1);
+        cout<< "String: " << start << endl;
+        cout << "StringLen: " << str.length() << endl;
+        cout << "Command" << command << endl;
+        cout << "Power: " << power << endl;
+        cout << "Angle: " << angle << endl;
+        int a = stoi(angle);
+        int p = stoi(power);
+
+        char *cstr = &command[0u];
+        cout<<"CSTR"<<cstr <<endl;
+
+        //->step(cmd[0], cmd[1]);
+        a1.open(com1);
+        a2.open(com2);
+        usleep(100000);
+        a1 << cstr << endl;
+        a2 << cstr << endl;
+    /*
+        if(alternate){
+            a1 << ctrl1 << endl;
+            a2 << ctrl1 << endl;
+        }else{
+            a1 << ctrl2 << endl;
+            a2 << ctrl2 << endl;
+        }
+1*/
+        alternate = !alternate;
+        a1.close();
+        a2.close();
+        //usleep(150000);
+
+        //arduino << droid->step(a, p) <<endl;
+       //arduino << command << endl;
+
+       //arduin << droid->step(a, p) <<endl;
+        //droid->step(30,101);
+        //droi->step(30,101);
+        //sleep(3);
+        //droid->step(130,0);
+        //droi->step(130,0);
+
+        /*
+        arduino << droid->step(30, 0) << endl;
+        usleep(1000000);
+        arduino << droid->step(130, 0) << endl;
+        usleep(1000000);
+        //droid->step(130, 0);
+        //droid->step(30, 101);
+*/
+        //printf("\nbuffer: %s\n", buffer);
+
+
 
 
     }
