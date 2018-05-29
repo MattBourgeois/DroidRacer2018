@@ -4,29 +4,19 @@
 #include <string>
 #include <vector>
 #include <opencv2/opencv.hpp>
+#include "TrainingHandler.h"
 
 using namespace std;
-
-
-class TrainingHandler {
-private:
-	std::string directory;
-	std::string filename;
-	std::vector<cv::Mat> images;
-	std::vector<float> angles;
-	std::vector<float> throttles;
-
-public:
-	TrainingHandler(std::string directory, std::string filename);
-	bool addSample(cv::Mat image, float angle, float throttle);
-	bool saveSamples();
-};
 
 
 
 TrainingHandler::TrainingHandler(std::string directory, std::string filename) {
 	this->filename = filename;
-	this->directory = directory;
+	if (directory.back() != '/') {
+		directory.append("/");
+	}
+	std::cout << directory << std::endl;
+	this->directory = directory;	
 }
 
 bool TrainingHandler::addSample(cv::Mat image, float angle, float throttle) {
