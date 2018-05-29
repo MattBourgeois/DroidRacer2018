@@ -49,7 +49,7 @@ public:
 		cvNamedWindow("UDP Video Receiver", CV_WINDOW_AUTOSIZE);
 	}
 
-	void receive()
+	Mat receive()
 	{
 		//read data
 		int result = client->receiveData(buff, UDPMAX);
@@ -68,6 +68,8 @@ public:
 			Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
 			IplImage img = jpegimage;
 			cvShowImage("UDP Video Receiver", &img);
+			// Return OpenCV Matrix
+			return jpegimage;
 			//cvWaitKey(1);
 		}
 	}
