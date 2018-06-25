@@ -1,11 +1,13 @@
+
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
-#include <WinSock2.h>
-#include <stdio.h>
+
+//#include <stdio.h>
 
 #ifndef UDPCLIENT_H
 #define UDPCLIENT_H
 
-#pragma comment(lib, "Ws2_32.lib")
+#include <WinSock2.h> // moved to stdafx.h
+#pragma comment(lib, "Ws2_32.lib") // moved to stdafx.h
 
 
 //CLIENT: UDP

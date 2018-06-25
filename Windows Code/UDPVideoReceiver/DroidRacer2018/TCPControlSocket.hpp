@@ -1,5 +1,6 @@
-#include <winsock2.h>
-#pragma comment(lib, "ws2_32.lib")
+#include <winsock2.h> // moved these libraries to stafx.h
+#include <stdio.h>
+//#pragma comment(lib, "ws2_32.lib")
 
 class TCPControlSocket
 {
@@ -22,6 +23,7 @@ public:
 	int setup()
 	{
 		// initialise winsock library
+		
 		printf("\nInitialising Winsock...");
 		if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		{

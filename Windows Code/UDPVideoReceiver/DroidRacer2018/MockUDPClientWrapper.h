@@ -13,4 +13,5 @@ private:
 public:
 	MockUDPClientWrapper();
 	Mat receive();
+	int setup();
 };

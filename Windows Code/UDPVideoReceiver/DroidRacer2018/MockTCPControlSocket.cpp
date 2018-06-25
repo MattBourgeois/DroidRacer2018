@@ -19,3 +19,13 @@ void MockTCPControlSocket::sendData(char * buffer)
 		So we do nothing here.
 	*/
 }
+
+int MockTCPControlSocket::setup()
+{
+	/*
+		THIS IS A MOCK FUNCTION
+		This would make a connection to the droid.
+		But this is a mock. So it does nothing.
+	*/
+	return 0;
+}

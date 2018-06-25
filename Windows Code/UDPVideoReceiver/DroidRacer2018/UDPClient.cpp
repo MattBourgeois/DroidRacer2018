@@ -1,4 +1,9 @@
 #include "UDPClient.hpp"
+#include <stdio.h>
+//#include <WinSock2.h>
+//#pragma comment(lib, "ws2_32.lib")
+
+using namespace std;
 
 //CONSTRUCTOR: Create new socket, bound locally to ANY (random) port:
 //THROWS: Exception upon ecountering an error.

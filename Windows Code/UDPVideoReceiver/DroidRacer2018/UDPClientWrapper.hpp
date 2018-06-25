@@ -67,7 +67,7 @@ public:
 			//reconstruct jpeg and display it
 			Mat jpegimage = imdecode(Mat(videoBuffer), CV_LOAD_IMAGE_COLOR);
 			IplImage img = jpegimage;
-			cvShowImage("UDP Video Receiver", &img);
+			//cvShowImage("UDP Video Receiver", &img);
 			// Return OpenCV Matrix
 			return jpegimage;
 			//cvWaitKey(1);

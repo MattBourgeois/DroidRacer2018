@@ -13,3 +13,12 @@ Mat MockUDPClientWrapper::receive() {
 	return this->frame;
 }
 
+int MockUDPClientWrapper::setup() {
+	/*
+		Here's a haiku:
+			This is a mock class
+			There is nothing to set-up
+			So this block is blank
+	*/
+	return 0;
+}
